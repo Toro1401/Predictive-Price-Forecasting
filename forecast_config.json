@@ -15,9 +15,18 @@
     "lookback": 400,
     "paths": 20,
     "pred_len_hourly": 24,
-    "pred_len_daily": 20,
+    "pred_len_stock": 5,
+    "pred_len_commodity": 20,
     "temperature": 1.0,
     "top_p": 0.9
+  },
+  "currency": {
+    "fx_ticker": "EURUSD=X",
+    "chart": "EUR",
+    "email": [
+      "USD",
+      "EUR"
+    ]
   },
   "tickers": {
     "crypto": [
@@ -48,6 +57,9 @@
       "MU",
       "TSM",
       "ASML",
+      "AMAT",
+      "LRCX",
+      "KLAC",
       "SNPS",
       "CDNS"
     ],
@@ -61,11 +73,16 @@
       "MPC",
       "VLO",
       "PSX",
+      "LNG"
+    ],
+    "power_renewables": [
       "NEE",
+      "CEG",
+      "VST",
       "ENPH",
       "FSLR"
     ],
-    "telco": [
+    "telecommunications": [
       "T",
       "VZ",
       "TMUS",
@@ -73,19 +90,31 @@
       "CHTR",
       "AMX"
     ],
-    "transportation": [
-      "UPS",
-      "FDX",
-      "UNP",
-      "CSX",
+    "people_transportation": [
       "DAL",
       "UAL",
+      "AAL",
       "LUV",
       "JBLU",
       "UBER",
       "LYFT"
     ],
-    "logistics_industrial": [
+    "logistics_transportation": [
+      "UPS",
+      "FDX",
+      "FDXF",
+      "UNP",
+      "CSX",
+      "JBHT",
+      "ODFL",
+      "XPO",
+      "RXO",
+      "CHRW",
+      "EXPD",
+      "GXO",
+      "MATX"
+    ],
+    "industrials_aerospace": [
       "CAT",
       "DE",
       "HON",
@@ -97,13 +126,13 @@
       "NOC"
     ],
     "videogames_entertainment": [
-      "EA",
       "TTWO",
       "RBLX",
+      "U",
       "NFLX",
       "DIS",
       "WBD",
-      "PARA",
+      "PSKY",
       "SONY"
     ],
     "finance": [
@@ -117,7 +146,8 @@
       "SCHW",
       "AXP",
       "V",
-      "MA"
+      "MA",
+      "BRK-B"
     ],
     "healthcare": [
       "JNJ",
@@ -142,25 +172,6 @@
       "MCD",
       "PG",
       "KO"
-    ],
-    "crypto_extended": [
-      "SOL-USD",
-      "BNB-USD",
-      "XRP-USD",
-      "ADA-USD",
-      "DOGE-USD",
-      "AVAX-USD",
-      "LINK-USD",
-      "DOT-USD"
-    ],
-    "commodities_extended": [
-      "SI=F",
-      "CL=F"
-    ],
-    "forex": [
-      "EURUSD=X",
-      "GBPUSD=X",
-      "USDJPY=X"
     ]
   }
 }

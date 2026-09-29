@@ -2,8 +2,9 @@ name: Kronos Daily Forecast
 
 on:
   schedule:
-    # Runs every day at 02:00 UTC (04:00 CEST) -- before market open
-    - cron: '0 2 * * *'
+    # Native timezone scheduling keeps the run at 23:30 through CET and CEST.
+    - cron: '30 23 * * *'
+      timezone: 'Europe/Rome'
   workflow_dispatch:  # Allow manual trigger from GitHub UI
 
 jobs:
@@ -43,6 +44,8 @@ jobs:
           KRONOS_EMAIL_SENDER: ${{ secrets.KRONOS_EMAIL_SENDER }}
           KRONOS_EMAIL_PASSWORD: ${{ secrets.KRONOS_EMAIL_PASSWORD }}
           KRONOS_EMAIL_RECIPIENT: ${{ secrets.KRONOS_EMAIL_RECIPIENT }}
+          KRONOS_CHARTS_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts
+          KRONOS_ARTIFACT_NAME: forecasts-${{ github.run_number }}
         run: |
           python forecast_all.py --all --email --cloud
 

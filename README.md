@@ -6,13 +6,13 @@
 
 ## What This Does
 
-Every morning before markets open, this system:
+Every night after the U.S. market close, this system:
 
 1. **Downloads the latest price data** for your tracked assets (via Yahoo Finance)
 2. **Runs the Kronos-base model** (102.3M parameters) to generate 20 sampled futures per asset
 3. **Calculates a forecast range** (5th-95th percentile) and the likely price path (median)
 4. **Sends you a newsletter email** with a market overview, per-asset insights, and signal table
-5. **Saves charts locally** in `forecasts/charts/` (one per asset, auto-replaced daily)
+5. **Saves three-month EUR charts** in `forecasts/charts/` (one per asset, auto-replaced daily), while the email reports both USD and EUR
 
 **Runs 100% in the cloud via GitHub Actions** -- no need to keep your PC on.
 
@@ -86,7 +86,7 @@ pip install torch --index-url https://download.pytorch.org/whl/cu128
 ```bash
 # Single ticker (original simple script)
 python forecast.py BTC-USD              # Crypto: next 24 hours
-python forecast.py AAPL daily           # Stocks: next 20 trading days
+python forecast.py AAPL daily           # Stocks: next 5 trading days
 
 # Multi-ticker system with newsletter
 python forecast_all.py --all            # All active tickers
@@ -118,7 +118,7 @@ python forecast_all.py --all --email    # Run + send email newsletter
 
 ## Cloud Deployment (GitHub Actions)
 
-The forecast runs automatically every day at **2:00 AM UTC** (4:00 AM CEST) via GitHub Actions -- **even when your PC is off**.
+The forecast runs automatically every day at **23:30 Europe/Rome** via GitHub Actions -- **even when your PC is off**. The workflow uses GitHub's native timezone-aware schedule, so daylight-saving changes do not move the local run time.
 
 ### Setup
 
@@ -129,6 +129,8 @@ The forecast runs automatically every day at **2:00 AM UTC** (4:00 AM CEST) via 
    - `KRONOS_EMAIL_PASSWORD` -- your Gmail App Password
    - `KRONOS_EMAIL_RECIPIENT` -- where to receive the newsletter
 4. The workflow will run daily automatically. You can also trigger it manually from the **Actions** tab.
+
+The newsletter contains an **Open Charts & Artifacts** link to the exact workflow run. After the run completes, download the named `forecasts-*` artifact to access `forecasts/charts/`. A private repository requires GitHub sign-in.
 
 ---
 
@@ -148,18 +150,19 @@ Edit `forecast_config.json` to customize which assets to track. Tickers are orga
 
 The config includes pre-built clusters of stocks by sector that you can activate by moving them from `inactive_clusters` to the active section. See `forecast_config.json` for the full list:
 
-- **AI & Semiconductors** -- AMD, INTC, AVGO, QCOM, ARM, MRVL, MU, TSM, ASML, SNPS, CDNS
-- **Energy** -- XOM, CVX, COP, SLB, EOG, OXY, MPC, VLO, PSX, NEE, ENPH, FSLR
+- **AI & Semiconductors** -- AMD, INTC, AVGO, QCOM, ARM, MRVL, MU, TSM, ASML, AMAT, LRCX, KLAC, SNPS, CDNS
+- **Energy** -- XOM, CVX, COP, SLB, EOG, OXY, MPC, VLO, PSX, LNG
+- **Power & Renewables** -- NEE, CEG, VST, ENPH, FSLR
 - **Telecommunications** -- T, VZ, TMUS, CMCSA, CHTR, AMX
-- **Transportation** -- UPS, FDX, UNP, CSX, DAL, UAL, LUV, JBLU, UBER, LYFT
-- **Logistics & Industrial** -- CAT, DE, HON, GE, MMM, RTX, LMT, BA, NOC
-- **Gaming & Entertainment** -- EA, TTWO, RBLX, NFLX, DIS, WBD, PARA, SONY
-- **Finance & Banking** -- JPM, GS, MS, BAC, WFC, C, BLK, SCHW, AXP, V, MA
+- **People Transportation** -- DAL, UAL, AAL, LUV, JBLU, UBER, LYFT
+- **Logistics Transportation** -- UPS, FDX, FDXF, UNP, CSX, JBHT, ODFL, XPO, RXO, CHRW, EXPD, GXO, MATX
+- **Industrials & Aerospace** -- CAT, DE, HON, GE, MMM, RTX, LMT, BA, NOC
+- **Gaming & Entertainment** -- TTWO, RBLX, U, NFLX, DIS, WBD, PSKY, SONY
+- **Finance & Banking** -- JPM, GS, MS, BAC, WFC, C, BLK, SCHW, AXP, V, MA, BRK-B
 - **Healthcare & Pharma** -- JNJ, UNH, PFE, ABBV, LLY, MRK, TMO, ABT, AMGN, GILD
-- **Retail & Consumer** -- AMZN, WMT, COST, TGT, HD, LOW, NKE, SBUX, MCD, PG, KO
-- **Crypto (Extended)** -- SOL-USD, BNB-USD, XRP-USD, ADA-USD, DOGE-USD, AVAX-USD, LINK-USD, DOT-USD
-- **Commodities (Extended)** -- SI=F (Silver), CL=F (Crude Oil)
-- **Forex** -- EURUSD=X, GBPUSD=X, USDJPY=X
+- **Retail & Consumer** -- WMT, COST, TGT, HD, LOW, NKE, SBUX, MCD, PG, KO
+
+All categories in this section contain stocks only and remain inactive until explicitly moved into the top-level `tickers` object.
 
 ---
 
@@ -169,7 +172,7 @@ The config includes pre-built clusters of stocks by sector that you can activate
 |-------------|---------|--------------------------------------------------|
 | `paths`     | 20      | 50+ for smoother bands (slower)                  |
 | `lookback`  | 400     | Keep <= 512 for small/base models                |
-| `pred_len`  | 24h/20d | Shorter = more reliable; band widens fast        |
+| `pred_len`  | 24h crypto / 5d stocks / 20d commodities | Shorter = more reliable; band widens fast |
 | `T`         | 1.0     | Lower = tighter, more conservative paths         |
 | `top_p`     | 0.9     | Lower = less diverse sampling                    |
 | Model       | base    | `Kronos-mini` for speed, `Kronos-base` for accuracy |
@@ -185,7 +188,7 @@ The config includes pre-built clusters of stocks by sector that you can activate
 │   ├── kronos.py
 │   └── module.py
 ├── forecasts/
-│   └── charts/             # Auto-managed chart images (old ones deleted)
+│   └── charts/             # Three-month EUR charts; older same-ticker chart deleted
 ├── .github/
 │   └── workflows/
 │       └── daily_forecast.yml   # GitHub Actions daily cron job

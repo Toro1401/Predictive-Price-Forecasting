@@ -1,4 +1,5 @@
 # Product Requirements Document (PRD)
+
 # Predictive Price Forecasting System
 
 ---
@@ -11,7 +12,7 @@
 
 ### 1.1 Purpose
 
-An automated daily forecasting system that uses the Kronos foundation model to generate probabilistic price forecasts for stocks, crypto, commodities, and forex. Forecasts are delivered as a styled newsletter email every morning before market open.
+An automated daily forecasting system that uses the Kronos foundation model to generate probabilistic price forecasts for stocks, crypto, commodities, and forex. Forecasts are delivered as a styled newsletter email after the U.S. market close.
 
 ### 1.2 Problem Statement
 
@@ -29,7 +30,7 @@ Retail investors lack access to institutional-grade quantitative forecasting too
 ```
 ┌─────────────────────────────────────────────────────┐
 │                    GitHub Actions                   │
-│      (Daily cron: 2:00 AM UTC / 4:00 AM CEST)       │
+│       (Daily at 23:30 Europe/Rome, CET/CEST)         │
 │                                                     │
 │  ┌─────────┐    ┌──────────┐    ┌────────────────┐  │
 │  │ Yahoo   │───>│ Kronos   │───>│ Newsletter     │  │
@@ -74,6 +75,8 @@ Retail investors lack access to institutional-grade quantitative forecasting too
 | FR-05 | Detect signal direction (Bullish/Bearish/Neutral)               | Done   |
 | FR-06 | Measure forecast confidence from band width                     | Done   |
 | FR-07 | Support both hourly (crypto) and daily (stocks) intervals       | Done   |
+| FR-07A| Forecast equities over five trading days                        | Done   |
+| FR-07B| Preserve the 20-trading-day commodity horizon                   | Done   |
 
 ### 3.2 Newsletter Email (P0 -- Critical)
 
@@ -85,13 +88,15 @@ Retail investors lack access to institutional-grade quantitative forecasting too
 | FR-11 | Color-coded signal badges and percentage changes                | Done   |
 | FR-12 | Include "How to read this report" section                       | Done   |
 | FR-13 | Include disclaimer footer                                       | Done   |
-| FR-14 | No chart attachments -- charts stored locally only              | Done   |
+| FR-14 | No chart attachments -- charts distributed as run artifacts     | Done   |
+| FR-14A| Link each cloud newsletter to its workflow charts artifact      | Done   |
+| FR-14B| Show source USD and converted EUR prices in the email           | Done   |
 
 ### 3.3 Scheduling & Cloud (P0 -- Critical)
 
 | ID    | Requirement                                                     | Status |
 |-------|-----------------------------------------------------------------|--------|
-| FR-15 | Run daily at 2:00 AM UTC via GitHub Actions cron                | Done   |
+| FR-15 | Run daily at 23:30 Europe/Rome via DST-safe GitHub cron         | Done   |
 | FR-16 | Support manual trigger from GitHub Actions UI                   | Done   |
 | FR-17 | Read email credentials from GitHub Secrets (cloud mode)         | Done   |
 | FR-18 | Cache model weights and pip packages between runs               | Done   |
@@ -102,7 +107,8 @@ Retail investors lack access to institutional-grade quantitative forecasting too
 |-------|-----------------------------------------------------------------|--------|
 | FR-19 | Save charts to `forecasts/charts/` directory                    | Done   |
 | FR-20 | Auto-delete previous chart for same ticker when new one created | Done   |
-| FR-21 | Chart filename format: `{TICKER}_{DATE}.png`                    | Done   |
+| FR-21 | Descriptive chart filenames include name, ticker, horizon, date  | Done   |
+| FR-21A| Plot three months of historical context and display prices in EUR| Done   |
 
 ### 3.5 Ticker Configuration (P1 -- Important)
 
@@ -130,13 +136,14 @@ Retail investors lack access to institutional-grade quantitative forecasting too
 
 ## 5. Data Flow
 
-1. **Trigger:** GitHub Actions cron fires at 2:00 AM UTC
+1. **Trigger:** GitHub Actions fires at 23:30 using the native `Europe/Rome` timezone
 2. **Data Pull:** yfinance downloads latest candles for each active ticker
 3. **Inference:** Kronos-base runs 20 forward passes per ticker on CPU
 4. **Aggregation:** Percentile bands + direction signals calculated
-5. **Newsletter:** HTML email generated with overview, insights, tables
-6. **Delivery:** Email sent via Gmail SMTP
-7. **Artifacts:** Charts saved locally, JSON summary saved, old charts cleaned up
+5. **Currency:** One USD/EUR snapshot converts presentation values without changing model inputs
+6. **Newsletter:** HTML email generated with overview, insights, and dual-currency tables
+7. **Delivery:** Email sent via Gmail SMTP
+8. **Artifacts:** Descriptively named EUR charts and JSON/HTML outputs are uploaded; the email links to the run
 
 ---
 
@@ -152,7 +159,7 @@ Retail investors lack access to institutional-grade quantitative forecasting too
 
 ### Inactive Clusters (available for activation)
 
-11 sector clusters with 100+ tickers ready to activate. See `forecast_config.json`.
+11 stock-only inactive clusters with 100+ equities ready to activate. Passenger transport and freight logistics are separated; see `forecast_config.json`.
 
 ---
 
@@ -183,7 +190,7 @@ Retail investors lack access to institutional-grade quantitative forecasting too
 
 ## 9. Success Metrics
 
-- Daily email delivered before market open (4:00 AM CEST)
+- Daily email generated after the market close at 23:30 Europe/Rome
 - 100% of active tickers forecasted (skip gracefully on data errors)
 - Newsletter opens (track via Gmail read receipts if desired)
 - Forecast accuracy tracking (future enhancement)
