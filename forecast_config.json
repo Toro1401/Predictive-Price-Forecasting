@@ -1,0 +1,42 @@
+{
+  "email": {
+    "sender": "danilo.torelli@gmail.com",
+    "password": "msut tlxd zayd lcwu",
+    "recipient": "danilo.torelli@gmail.com",
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587
+  },
+  "model": {
+    "name": "NeoQuasar/Kronos-base",
+    "tokenizer": "NeoQuasar/Kronos-Tokenizer-base",
+    "max_context": 512
+  },
+  "forecast": {
+    "lookback": 400,
+    "paths": 20,
+    "pred_len_hourly": 24,
+    "pred_len_daily": 20,
+    "temperature": 1.0,
+    "top_p": 0.9
+  },
+  "tickers": {
+    "crypto": [
+      "BTC-USD",
+      "ETH-USD"
+    ],
+    "commodities": [
+      "GC=F"
+    ],
+    "sp500_top": [
+      "AAPL",
+      "MSFT",
+      "AMZN",
+      "NVDA",
+      "GOOGL",
+      "META",
+      "TSLA"
+    ],
+    "nasdaq100_extra": [],
+    "forex": []
+  }
+}
