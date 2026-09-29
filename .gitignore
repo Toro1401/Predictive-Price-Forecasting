@@ -75,6 +75,9 @@ temp/
 tmp/
 .python-version
 
-# Project specific
-forecasts/
+# Forecast outputs and logs
+forecasts/*
+!forecasts/charts/
+!forecasts/charts/.gitkeep
 forecast_log.txt
+forecast.png

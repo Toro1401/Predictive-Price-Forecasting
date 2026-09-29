@@ -55,24 +55,75 @@ DEFAULT_CONFIG = {
     "tickers": {
         "crypto": ["BTC-USD", "ETH-USD"],
         "commodities": ["GC=F"],
-        "sp500_top": ["AAPL", "MSFT", "AMZN", "NVDA", "GOOGL", "META", "TSLA"],
-        "nasdaq100_extra": [],
-        "forex": []
+        "sp500_top": ["AAPL", "MSFT", "AMZN", "NVDA", "GOOGL", "META", "TSLA"]
+    },
+    "inactive_clusters": {
+        "ai_semiconductors": ["AMD", "INTC", "AVGO", "QCOM", "ARM", "MRVL", "MU", "TSM", "ASML", "SNPS", "CDNS"],
+        "energy": ["XOM", "CVX", "COP", "SLB", "EOG", "OXY", "MPC", "VLO", "PSX", "NEE", "ENPH", "FSLR"],
+        "telco": ["T", "VZ", "TMUS", "CMCSA", "CHTR", "AMX"],
+        "transportation": ["UPS", "FDX", "UNP", "CSX", "DAL", "UAL", "LUV", "JBLU", "UBER", "LYFT"],
+        "logistics_industrial": ["CAT", "DE", "HON", "GE", "MMM", "RTX", "LMT", "BA", "NOC"],
+        "videogames_entertainment": ["EA", "TTWO", "RBLX", "NFLX", "DIS", "WBD", "PARA", "SONY"],
+        "finance": ["JPM", "GS", "MS", "BAC", "WFC", "C", "BLK", "SCHW", "AXP", "V", "MA"],
+        "healthcare": ["JNJ", "UNH", "PFE", "ABBV", "LLY", "MRK", "TMO", "ABT", "AMGN", "GILD"],
+        "retail_consumer": ["WMT", "COST", "TGT", "HD", "LOW", "NKE", "SBUX", "MCD", "PG", "KO"],
+        "crypto_extended": ["SOL-USD", "BNB-USD", "XRP-USD", "ADA-USD", "DOGE-USD", "AVAX-USD", "LINK-USD", "DOT-USD"],
+        "commodities_extended": ["SI=F", "CL=F"],
+        "forex": ["EURUSD=X", "GBPUSD=X", "USDJPY=X"]
     }
 }
 
 # ─── FRIENDLY NAMES ─────────────────────────────────────────────────────────
 
 TICKER_NAMES = {
+    # Top Crypto
     "BTC-USD": "Bitcoin", "ETH-USD": "Ethereum", "SOL-USD": "Solana",
     "BNB-USD": "BNB", "XRP-USD": "XRP", "ADA-USD": "Cardano",
     "AVAX-USD": "Avalanche", "DOT-USD": "Polkadot", "DOGE-USD": "Dogecoin",
     "LINK-USD": "Chainlink",
+    # Commodities
     "GC=F": "Gold", "SI=F": "Silver", "CL=F": "Crude Oil",
+    # Magnificent 7
     "AAPL": "Apple", "MSFT": "Microsoft", "AMZN": "Amazon",
     "NVDA": "Nvidia", "GOOGL": "Alphabet", "META": "Meta", "TSLA": "Tesla",
-    "BRK-B": "Berkshire", "UNH": "UnitedHealth", "XOM": "Exxon",
-    "JNJ": "Johnson & Johnson", "JPM": "JPMorgan", "V": "Visa",
+    # AI & Semiconductors
+    "AMD": "AMD", "INTC": "Intel", "AVGO": "Broadcom", "QCOM": "Qualcomm",
+    "ARM": "ARM Holdings", "MRVL": "Marvell", "MU": "Micron", "TSM": "TSMC",
+    "ASML": "ASML", "SNPS": "Synopsys", "CDNS": "Cadence",
+    # Energy
+    "XOM": "ExxonMobil", "CVX": "Chevron", "COP": "ConocoPhillips",
+    "SLB": "Schlumberger", "EOG": "EOG Resources", "OXY": "Occidental",
+    "MPC": "Marathon Petroleum", "VLO": "Valero", "PSX": "Phillips 66",
+    "NEE": "NextEra Energy", "ENPH": "Enphase", "FSLR": "First Solar",
+    # Telco
+    "T": "AT&T", "VZ": "Verizon", "TMUS": "T-Mobile", "CMCSA": "Comcast",
+    "CHTR": "Charter", "AMX": "America Movil",
+    # Transportation
+    "UPS": "UPS", "FDX": "FedEx", "UNP": "Union Pacific", "CSX": "CSX Corp",
+    "DAL": "Delta Air Lines", "UAL": "United Airlines", "LUV": "Southwest Airlines",
+    "JBLU": "JetBlue", "UBER": "Uber", "LYFT": "Lyft",
+    # Logistics & Industrial
+    "CAT": "Caterpillar", "DE": "Deere & Co", "HON": "Honeywell",
+    "GE": "GE Aerospace", "MMM": "3M", "RTX": "RTX Corp",
+    "LMT": "Lockheed Martin", "BA": "Boeing", "NOC": "Northrop Grumman",
+    # Videogames & Entertainment
+    "EA": "Electronic Arts", "TTWO": "Take-Two", "RBLX": "Roblox",
+    "NFLX": "Netflix", "DIS": "Disney", "WBD": "Warner Bros Discovery",
+    "PARA": "Paramount", "SONY": "Sony",
+    # Finance
+    "JPM": "JPMorgan Chase", "GS": "Goldman Sachs", "MS": "Morgan Stanley",
+    "BAC": "Bank of America", "WFC": "Wells Fargo", "C": "Citigroup",
+    "BLK": "BlackRock", "SCHW": "Charles Schwab", "AXP": "American Express",
+    "V": "Visa", "MA": "Mastercard", "BRK-B": "Berkshire Hathaway",
+    # Healthcare
+    "JNJ": "Johnson & Johnson", "UNH": "UnitedHealth", "PFE": "Pfizer",
+    "ABBV": "AbbVie", "LLY": "Eli Lilly", "MRK": "Merck",
+    "TMO": "Thermo Fisher", "ABT": "Abbott", "AMGN": "Amgen", "GILD": "Gilead",
+    # Retail & Consumer
+    "WMT": "Walmart", "COST": "Costco", "TGT": "Target", "HD": "Home Depot",
+    "LOW": "Lowe's", "NKE": "Nike", "SBUX": "Starbucks", "MCD": "McDonald's",
+    "PG": "Procter & Gamble", "KO": "Coca-Cola",
+    # Forex
     "EURUSD=X": "EUR/USD", "GBPUSD=X": "GBP/USD", "USDJPY=X": "USD/JPY",
 }
 
@@ -194,10 +245,17 @@ def run_forecast(ticker, mode, predictor, config):
     }
 
     # 5. Plot (saved locally, not sent in email)
-    output_dir = Path(__file__).parent / "forecasts"
-    output_dir.mkdir(exist_ok=True)
+    charts_dir = Path(__file__).parent / "forecasts" / "charts"
+    charts_dir.mkdir(parents=True, exist_ok=True)
     date_str = datetime.datetime.now().strftime("%Y-%m-%d")
-    chart_path = output_dir / f"{ticker.replace('=', '_')}_{date_str}.png"
+    safe_ticker = ticker.replace("=", "_")
+    chart_path = charts_dir / f"{safe_ticker}_{date_str}.png"
+
+    # Auto-delete old charts for the same ticker
+    import glob
+    for old_chart in charts_dir.glob(f"{safe_ticker}_*.png"):
+        if old_chart != chart_path:
+            old_chart.unlink(missing_ok=True)
 
     fig, ax = plt.subplots(figsize=(11, 5))
     ax.plot(x_ts.tail(120), df["close"].tail(120), color="black", linewidth=1.2, label="History")
@@ -496,17 +554,18 @@ def main():
 
     categories = set()
     if "--crypto" in sys.argv: categories.add("crypto")
-    if "--stocks" in sys.argv: categories.update(["sp500_top", "nasdaq100_extra"])
+    if "--stocks" in sys.argv: categories.update([k for k in config.get("tickers", {}) if k not in ("crypto", "commodities", "forex")])
     if "--commodities" in sys.argv: categories.add("commodities")
     if "--forex" in sys.argv: categories.add("forex")
     if "--all" in sys.argv or not categories:
-        categories = {"crypto", "sp500_top", "nasdaq100_extra", "commodities", "forex"}
+        categories = set(config.get("tickers", {}).keys())
 
     # Build ticker list
     tickers = []
     for cat in categories:
-        for t in config["tickers"].get(cat, []):
-            mode = "hourly" if cat in ("crypto", "forex") else "daily"
+        for t in config.get("tickers", {}).get(cat, []):
+            is_hourly = cat in ("crypto", "forex") or t.endswith("-USD") or t.endswith("=X")
+            mode = "hourly" if is_hourly else "daily"
             tickers.append((t, mode))
 
     print(f"{'='*60}")

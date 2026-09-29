@@ -2,8 +2,8 @@ name: Kronos Daily Forecast
 
 on:
   schedule:
-    # Runs every day at 05:00 UTC (07:00 CEST / Rome time)
-    - cron: '0 5 * * *'
+    # Runs every day at 02:00 UTC (04:00 CEST) -- before market open
+    - cron: '0 2 * * *'
   workflow_dispatch:  # Allow manual trigger from GitHub UI
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt yfinance
+          pip install -r requirements.txt
 
       - name: Run forecast and send newsletter
         env:

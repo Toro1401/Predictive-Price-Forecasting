@@ -1,8 +1,8 @@
 {
   "email": {
-    "sender": "danilo.torelli@gmail.com",
-    "password": "msut tlxd zayd lcwu",
-    "recipient": "danilo.torelli@gmail.com",
+    "sender": "your.email@gmail.com",
+    "password": "your_app_password_here",
+    "recipient": "your.email@gmail.com",
     "smtp_server": "smtp.gmail.com",
     "smtp_port": 587
   },
@@ -35,8 +35,132 @@
       "GOOGL",
       "META",
       "TSLA"
+    ]
+  },
+  "inactive_clusters": {
+    "ai_semiconductors": [
+      "AMD",
+      "INTC",
+      "AVGO",
+      "QCOM",
+      "ARM",
+      "MRVL",
+      "MU",
+      "TSM",
+      "ASML",
+      "SNPS",
+      "CDNS"
     ],
-    "nasdaq100_extra": [],
-    "forex": []
+    "energy": [
+      "XOM",
+      "CVX",
+      "COP",
+      "SLB",
+      "EOG",
+      "OXY",
+      "MPC",
+      "VLO",
+      "PSX",
+      "NEE",
+      "ENPH",
+      "FSLR"
+    ],
+    "telco": [
+      "T",
+      "VZ",
+      "TMUS",
+      "CMCSA",
+      "CHTR",
+      "AMX"
+    ],
+    "transportation": [
+      "UPS",
+      "FDX",
+      "UNP",
+      "CSX",
+      "DAL",
+      "UAL",
+      "LUV",
+      "JBLU",
+      "UBER",
+      "LYFT"
+    ],
+    "logistics_industrial": [
+      "CAT",
+      "DE",
+      "HON",
+      "GE",
+      "MMM",
+      "RTX",
+      "LMT",
+      "BA",
+      "NOC"
+    ],
+    "videogames_entertainment": [
+      "EA",
+      "TTWO",
+      "RBLX",
+      "NFLX",
+      "DIS",
+      "WBD",
+      "PARA",
+      "SONY"
+    ],
+    "finance": [
+      "JPM",
+      "GS",
+      "MS",
+      "BAC",
+      "WFC",
+      "C",
+      "BLK",
+      "SCHW",
+      "AXP",
+      "V",
+      "MA"
+    ],
+    "healthcare": [
+      "JNJ",
+      "UNH",
+      "PFE",
+      "ABBV",
+      "LLY",
+      "MRK",
+      "TMO",
+      "ABT",
+      "AMGN",
+      "GILD"
+    ],
+    "retail_consumer": [
+      "WMT",
+      "COST",
+      "TGT",
+      "HD",
+      "LOW",
+      "NKE",
+      "SBUX",
+      "MCD",
+      "PG",
+      "KO"
+    ],
+    "crypto_extended": [
+      "SOL-USD",
+      "BNB-USD",
+      "XRP-USD",
+      "ADA-USD",
+      "DOGE-USD",
+      "AVAX-USD",
+      "LINK-USD",
+      "DOT-USD"
+    ],
+    "commodities_extended": [
+      "SI=F",
+      "CL=F"
+    ],
+    "forex": [
+      "EURUSD=X",
+      "GBPUSD=X",
+      "USDJPY=X"
+    ]
   }
 }
