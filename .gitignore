@@ -78,6 +78,7 @@ tmp/
 # Forecast outputs and logs
 forecasts/*
 !forecasts/charts/
+forecasts/charts/*
 !forecasts/charts/.gitkeep
 forecast_log.txt
 forecast.png
