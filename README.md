@@ -127,7 +127,7 @@ The forecast runs automatically every day at **23:30 Europe/Rome** via GitHub Ac
 3. Add these 3 secrets:
    - `KRONOS_EMAIL_SENDER` -- your Gmail address
    - `KRONOS_EMAIL_PASSWORD` -- your Gmail App Password
-   - `KRONOS_EMAIL_RECIPIENT` -- where to receive the newsletter
+   - `KRONOS_EMAIL_RECIPIENT` -- recipient email address (supports multiple comma-separated emails, e.g. `user1@gmail.com, user2@gmail.com`)
 4. The workflow will run daily automatically. You can also trigger it manually from the **Actions** tab.
 
 The newsletter contains an **Open Charts & Artifacts** link to the exact workflow run. After the run completes, download the named `forecasts-*` artifact to access `forecasts/charts/`. A private repository requires GitHub sign-in.

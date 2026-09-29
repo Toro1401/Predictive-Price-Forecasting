@@ -804,11 +804,25 @@ def build_newsletter(results, config):
     return html
 
 
+def parse_recipients(recipient_setting):
+    """Normalize recipient setting (string, comma/semicolon-separated, or list) into a list of emails."""
+    if isinstance(recipient_setting, list):
+        return [r.strip() for r in recipient_setting if isinstance(r, str) and r.strip()]
+    if isinstance(recipient_setting, str):
+        parts = re.split(r"[,;]", recipient_setting)
+        return [p.strip() for p in parts if p.strip()]
+    return []
+
+
 def send_email(html, email_config):
-    """Send newsletter email via SMTP."""
+    """Send newsletter email via SMTP to one or multiple recipients."""
+    recipients = parse_recipients(email_config.get("recipient", ""))
+    if not recipients:
+        raise ValueError("No recipient email addresses provided in email configuration.")
+
     msg = MIMEMultipart("alternative")
     msg["From"] = email_config["sender"]
-    msg["To"] = email_config["recipient"]
+    msg["To"] = ", ".join(recipients)
     msg["Subject"] = f"Kronos Daily Forecast - {report_now().strftime('%b %d, %Y')}"
 
     # Plain text fallback
@@ -822,9 +836,9 @@ def send_email(html, email_config):
     with smtplib.SMTP(email_config["smtp_server"], email_config["smtp_port"]) as server:
         server.starttls()
         server.login(email_config["sender"], email_config["password"])
-        server.sendmail(email_config["sender"], email_config["recipient"], msg.as_string())
+        server.sendmail(email_config["sender"], recipients, msg.as_string())
 
-    print(f"\n  [OK] Newsletter sent to {email_config['recipient']}")
+    print(f"\n  [OK] Newsletter sent to {', '.join(recipients)}")
 
 
 # ─── MAIN ────────────────────────────────────────────────────────────────────
